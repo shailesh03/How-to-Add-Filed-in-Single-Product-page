@@ -1,0 +1,30 @@
+
+// Add This Code For Function.php
+
+<?php 
+add_action( 'woocommerce_product_options_general_product_data', 'woocom_general_product_data_custom_field' );
+
+function woocom_general_product_data_custom_field() {
+  // Create a custom text field
+  
+  // Text Field
+  woocommerce_wp_text_input( 
+    array( 
+      'id' => '_new_regular_price', 
+      'label' => __( 'New Regular Price', 'woocommerce' ), 
+      'placeholder' => 'New Regular Price',
+      'desc_tip' => 'true',
+      'description' => __( 'Regular Price', 'woocommerce' ) 
+    )
+  );
+} 
+
+add_action( 'woocommerce_process_product_meta', 'woocom_save_general_proddata_custom_field' );
+
+function woocom_save_general_proddata_custom_field( $post_id ) {
+	$text_field = $_POST['_new_regular_price'];
+	if( ! empty( $text_field ) ) { 
+		update_post_meta( $post_id, '_new_regular_price', esc_attr( $text_field ) );
+	}
+} 
+?>
